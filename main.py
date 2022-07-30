@@ -14,6 +14,23 @@ class Student:
         else:
             print('Ошибка')
 
+    def __lt__(self, other):
+        if not isinstance(other, Student):
+            print('Ошибка! Вы сравниваете разные роли!')
+        else:
+            print(f'Средняя оценка студента {self.name} {self.surname}: {get_mean(self.grades)}')
+            print(f'Средняя оценка студента {other.name} {other.surname}: {get_mean(other.grades)}')
+            if get_mean(self.grades) > get_mean(other.grades):
+                return f'Разница составляет: {get_mean(self.grades) - get_mean(other.grades)}'
+            else:
+                return f'Разница составляет: {get_mean(other.grades) - get_mean(self.grades)}'
+
+    def __str__(self):
+        return f'Имя: {self.name}\n' \
+               f'Фамилия: {self.surname}\n' \
+               f'Средняя оценка за домашние задания: {get_mean(self.grades)}\n' \
+               f'Курсы в процессе изучения: {", ".join(self.courses_in_progress)}'
+
 
 class Mentor:
     def __init__(self, name, surname):
@@ -24,7 +41,22 @@ class Mentor:
 
 
 class Lecturer(Mentor):
-    pass
+    def __lt__(self, other):
+        if not isinstance(other, Lecturer):
+            print('Ошибка! Вы сравниваете разные роли!')
+        else:
+            print(f'Средняя оценка лектора {self.name} {self.surname}: {get_mean(self.grades)}')
+            print(f'Средняя оценка лектора {other.name} {other.surname}: {get_mean(other.grades)}')
+            if get_mean(self.grades) > get_mean(other.grades):
+                return f'Разница составляет: {get_mean(self.grades)-get_mean(other.grades)}'
+            else:
+                return f'Разница составляет: {get_mean(other.grades)-get_mean(self.grades)}'
+
+    def __str__(self):
+        return f'Имя: {self.name}\n' \
+               f'Фамилия: {self.surname}\n' \
+               f'Специализация: {", ".join(self.courses_attached)}\n' \
+               f'Средняя оценка за лекции: {get_mean(self.grades)}'
 
 
 class Reviewer(Mentor):
@@ -37,22 +69,18 @@ class Reviewer(Mentor):
         else:
             print('Ошибка')
 
+    def __str__(self):
+        return f'Имя: {self.name}\n' \
+               f'Фамилия: {self.surname}\n' \
+               f'Специализация: {", ".join(self.courses_attached)}'
 
-def mean_grade(first, second):
-    first_grades = []
-    second_grades = []
-    if type(first) == type(second):
-        for discipline in first.grades:
-            for grade in first.grades[discipline]:
-                first_grades.append(grade)
-        for discipline in second.grades:
-            for grade in second.grades[discipline]:
-                second_grades.append(grade)
-    if sum(first_grades)/len(first_grades) > sum(second_grades)/len(second_grades):
-        difference = sum(first_grades)/len(first_grades) - sum(second_grades)/len(second_grades)
-    else:
-        difference = sum(second_grades)/len(second_grades) - sum(first_grades)/len(first_grades)
-    print(f'Средняя оценка {first.name} {first.surname} составляет {sum(first_grades)/len(first_grades)}.\nСредняя оценка {second.name} {second.surname} составляет {sum(second_grades)/len(second_grades)}.\nРазница: {difference}')
+
+def get_mean(grades_list):
+    all_grades = []
+    for discipline in grades_list:
+        for grade in grades_list[discipline]:
+            all_grades.append(grade)
+    return sum(all_grades)/len(all_grades)
 
 
 if __name__ == '__main__':
@@ -97,3 +125,8 @@ if __name__ == '__main__':
     i_ivanov.rate_student(a_araslanova, 'HTML', 1)
     i_ivanov.rate_student(a_araslanova, 'C++', 3)
     i_ivanov.rate_student(i_mushka, 'C++', 1)
+    print(a_araslanova)
+    print()
+    print(m_alekseeva)
+    print()
+    print(n_abramov)
