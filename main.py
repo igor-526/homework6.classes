@@ -83,6 +83,20 @@ def get_mean(grades_list):
     return sum(all_grades)/len(all_grades)
 
 
+def get_mean_course(people_list, course):
+    all_grades = []
+    for people in people_list:
+        if type(people) == type(people_list[0]):
+            if course in people.grades:
+                for grade in people.grades[course]:
+                    all_grades.append(grade)
+            else:
+                print(f'Ошибка! {people.name} {people.surname} не имеет специализации {course}!')
+        else:
+            print('Ошибка! Вы смешали людей разных ролей!')
+    return sum(all_grades) / len(all_grades)
+
+
 if __name__ == '__main__':
     k_grigoreva = Student('Карина', 'Григорьева')
     k_grigoreva.courses_in_progress += ['Python']
@@ -125,8 +139,3 @@ if __name__ == '__main__':
     i_ivanov.rate_student(a_araslanova, 'HTML', 1)
     i_ivanov.rate_student(a_araslanova, 'C++', 3)
     i_ivanov.rate_student(i_mushka, 'C++', 1)
-    print(a_araslanova)
-    print()
-    print(m_alekseeva)
-    print()
-    print(n_abramov)
